@@ -1,0 +1,4 @@
+service HelloWorld {
+
+   string hello()
+}
