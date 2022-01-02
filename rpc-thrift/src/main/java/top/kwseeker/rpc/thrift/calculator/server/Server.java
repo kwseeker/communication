@@ -1,12 +1,12 @@
-package top.kwseeker.communication.thrift.server;
+package top.kwseeker.rpc.thrift.calculator.server;
 
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
-import top.kwseeker.communication.thrift.api.Calculator;
-import top.kwseeker.communication.thrift.handler.CalculatorHandler;
+import top.kwseeker.rpc.thrift.calculator.api.Calculator;
+import top.kwseeker.rpc.thrift.calculator.handler.CalculatorHandler;
 
 /**
  * 服务端进程

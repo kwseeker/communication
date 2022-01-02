@@ -1,12 +1,12 @@
-package top.kwseeker.communication.thrift.server;
+package top.kwseeker.rpc.thrift.greet.server;
 
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
-import top.kwseeker.communication.thrift.api.HelloWorld;
-import top.kwseeker.communication.thrift.handler.HelloWorldHandler;
+import top.kwseeker.rpc.thrift.greet.api.HelloWorld;
+import top.kwseeker.rpc.thrift.greet.handler.HelloWorldHandler;
 
 public class HelloWorldServer {
 

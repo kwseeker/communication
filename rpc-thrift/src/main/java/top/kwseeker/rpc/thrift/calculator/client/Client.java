@@ -1,11 +1,11 @@
-package top.kwseeker.communication.thrift.client;
+package top.kwseeker.rpc.thrift.calculator.client;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
-import top.kwseeker.communication.thrift.api.Calculator;
+import top.kwseeker.rpc.thrift.calculator.api.Calculator;
 
 /**
  * 客户端进程
@@ -57,7 +57,7 @@ public class Client {
         //System.out.println("ping()");
 
         int sum = client.add(3, 5);
-        System.out.println("1+1=" + sum);
+        System.out.println("3+5=" + sum);
         //
         //Work work = new Work();
         //

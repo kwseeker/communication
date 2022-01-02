@@ -1,7 +1,7 @@
-package top.kwseeker.communication.thrift.handler;
+package top.kwseeker.rpc.thrift.greet.handler;
 
 import org.apache.thrift.TException;
-import top.kwseeker.communication.thrift.api.HelloWorld;
+import top.kwseeker.rpc.thrift.greet.api.HelloWorld;
 
 public class HelloWorldHandler implements HelloWorld.Iface {
 

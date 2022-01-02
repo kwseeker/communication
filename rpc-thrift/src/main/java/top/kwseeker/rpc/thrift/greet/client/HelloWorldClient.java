@@ -1,11 +1,11 @@
-package top.kwseeker.communication.thrift.client;
+package top.kwseeker.rpc.thrift.greet.client;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
-import top.kwseeker.communication.thrift.api.HelloWorld;
+import top.kwseeker.rpc.thrift.greet.api.HelloWorld;
 
 public class HelloWorldClient {
 
