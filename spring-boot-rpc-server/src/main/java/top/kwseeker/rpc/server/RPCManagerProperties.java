@@ -5,7 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "rpc.manager")
 public class RPCManagerProperties {
 
-    private ThriftProperties thrift = new ThriftProperties();
+    private final ThriftProperties thrift = new ThriftProperties();
+
+    public ThriftProperties getThrift() {
+        return thrift;
+    }
 
     public static class ThriftProperties {
         //Thrift RPC 开关
@@ -14,9 +18,9 @@ public class RPCManagerProperties {
         private Integer port = 9081;
         //private Integer type = ;
         //线程池最小线程数
-        private Integer minThreadPool;
+        private Integer minThreadPool = 4;
         //线程池最大线程数
-        private Integer maxThreadPool;
+        private Integer maxThreadPool = 4;
 
         public Boolean getEnabled() {
             return enabled;
