@@ -41,12 +41,23 @@
             <artifactId>libthrift</artifactId>
             <version>0.15.0</version>
         </dependency>
+        <!--<dependency>-->
+        <!--    <groupId>commons-pool</groupId>-->
+        <!--    <artifactId>commons-pool</artifactId>-->
+        <!--    <version>1.6</version>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>commons-pool</groupId>
-            <artifactId>commons-pool</artifactId>
-            <version>1.6</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.11.1</version>
         </dependency>
-
+        <!-- 仅仅是测试 commons-pool 连接池 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
