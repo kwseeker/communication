@@ -1,14 +1,16 @@
 package top.kwseeker.rpc.client.thrift;
 
-import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.transport.layered.TFramedTransport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import top.kwseeker.rpc.client.IRPCClient;
 import top.kwseeker.rpc.processor.thrift.user.UserService;
 
-public class ThriftClient {
+public class ThriftRpcClient implements IRPCClient {
+
+    private static final Logger log = LoggerFactory.getLogger(ThriftRpcClient.class);
 
     private String host;
     private Integer port;
@@ -16,16 +18,16 @@ public class ThriftClient {
     private TProtocol tProtocol;
     private UserService.Client client;
 
-    public ThriftClient() {
-        System.out.println("ThriftClient constructor");
+    public ThriftRpcClient() {
+        log.info("new ThriftClient constructed, id: {}", System.identityHashCode(this));
     }
 
-    private void init() throws TTransportException {
-        tTransport = new TFramedTransport(new TSocket(host, port), 600);
-        //协议对象 这里使用协议对象需要和服务器的一致
-        tProtocol = new TCompactProtocol(tTransport);
-        client = new UserService.Client(tProtocol);
-    }
+    //private void init() throws TTransportException {
+    //    tTransport = new TFramedTransport(new TSocket(host, port), 600);
+    //    //协议对象 这里使用协议对象需要和服务器的一致
+    //    tProtocol = new TCompactProtocol(tTransport);
+    //    client = new UserService.Client(tProtocol);
+    //}
 
     public UserService.Client getService() {
         return client;

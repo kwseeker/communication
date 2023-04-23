@@ -1,5 +1,6 @@
 package top.kwseeker.rpc.server.thrift;
 
+import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.server.THsHaServer;
@@ -53,7 +54,10 @@ public class ThriftServer implements IRPCServer {
             //TProcessor tProcessor = new StudentService.Processor<>(myServerService);
             //Processor处理区  用于处理业务逻辑
             //泛型就是实现的业务
-            UserService.Processor<UserService.Iface> processor = new UserService.Processor<>(userService);
+            UserService.Processor<UserService.Iface> userProcessor = new UserService.Processor<>(userService);
+            //汇总，注册多个服务处理器
+            TMultiplexedProcessor multiplexedProcessor = new TMultiplexedProcessor();
+            multiplexedProcessor.registerProcessor("userService", userProcessor);
 
             //---------------thrift传输协议------------------------------
             //1. TBinaryProtocol      二进制传输协议
@@ -79,7 +83,7 @@ public class ThriftServer implements IRPCServer {
             //---------------thrift数据传输方式------------------------------
 
             //设置处理器(Processor)工厂
-            arg.processorFactory(new TProcessorFactory(processor));
+            arg.processorFactory(new TProcessorFactory(multiplexedProcessor));
 
             //---------------thrift支持的服务模型------------------------------
             //1.TSimpleServer  简单的单线程服务模型，用于测试
@@ -92,7 +96,7 @@ public class ThriftServer implements IRPCServer {
             TServer server = new THsHaServer(arg);
             //---------------thrift支持的服务模型------------------------------
 
-            log.info("Thrift server started; port:" + properties.getPort());
+            log.info("Thrift server started; port: {}", properties.getPort());
             //启动server, 异步非阻塞的死循环
             server.serve();
         } catch (TTransportException e) {

@@ -1,4 +1,4 @@
-package top.kwseeker.rpc.pool;
+package top.kwseeker.rpc.client.pool;
 
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
