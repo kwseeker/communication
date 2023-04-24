@@ -1,6 +1,11 @@
 package top.kwseeker.rpc;
 
 import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TCompactProtocol;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.layered.TFramedTransport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +24,8 @@ public class ThriftClientApplicationTest {
 
     @Test
     public void testThriftRequest() throws TException {
-        //User user = userServiceProxy.getUser("Bob");
-        //System.out.println("thrift rpc response: " + user.toString());
-        userServiceProxy.setUser(new User("Cindy", 19));
+        User user = userServiceProxy.getUser("Bob");
+        System.out.println("thrift rpc response: " + user.toString());
+        //userServiceProxy.setUser(new User("Cindy", 19));
     }
 }

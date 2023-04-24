@@ -1,6 +1,7 @@
-package top.kwseeker.rpc.server.thrift;
+package top.kwseeker.rpc.thrift.thrift3;
 
 import org.apache.thrift.TMultiplexedProcessor;
+import org.apache.thrift.TProcessor;
 import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.server.THsHaServer;
@@ -8,56 +9,38 @@ import org.apache.thrift.server.TServer;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.apache.thrift.transport.layered.TFramedTransport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import top.kwseeker.rpc.processor.thrift.user.UserService;
-import top.kwseeker.rpc.server.IRPCServer;
-import top.kwseeker.rpc.server.RPCManagerProperties;
+import top.kwseeker.rpc.thrift.calculator.api.Calculator;
+import top.kwseeker.rpc.thrift.calculator.handler.CalculatorHandler;
+import top.kwseeker.rpc.thrift.greet.api.HelloWorld;
+import top.kwseeker.rpc.thrift.greet.handler.HelloWorldHandler;
 
-import javax.annotation.Resource;
-import java.util.concurrent.CountDownLatch;
+public class ThriftServer {
 
-public class ThriftServer implements IRPCServer {
-
-    private final Logger log = LoggerFactory.getLogger(ThriftServer.class);
-
-    private RPCManagerProperties.ThriftProperties properties;
-
-    @Resource
-    private UserService.Iface userService;
-
-    public ThriftServer() {
-    }
-
-    public ThriftServer(RPCManagerProperties.ThriftProperties properties) {
-        this.properties = properties;
-    }
-
-    @Override
-    public void start(CountDownLatch latch) {
+    public static void main(String[] args) {
         try {
             //1 Socket: thrift支持的socket有很多种
             //非阻塞的socket
-            TNonblockingServerSocket socket = new TNonblockingServerSocket(properties.getPort());
+            TNonblockingServerSocket socket = new TNonblockingServerSocket(8081);
             //2 Server: THsHaServer 一个高可用的server
             //minWorkerThreads 最小的工作线程
             //maxWorkerThreads 最大的工作线程
             //如果这里Args不使用executorService指定线程池的话，创建THsHaServer会创建一个默认的LinkedBlockingQueue
             THsHaServer.Args arg = new THsHaServer.Args(socket)
-                    .minWorkerThreads(properties.getMinThreadPool())
-                    .maxWorkerThreads(properties.getMaxThreadPool());
+                    .minWorkerThreads(8)
+                    .maxWorkerThreads(16);
             //可以自定义指定线程池
             //ExecutorService pool = Executors.newFixedThreadPool(minThreadPool);
             //arg.executorService(pool);
 
             //3 TProcessor
-            //TProcessor tProcessor = new StudentService.Processor<>(myServerService);
             //Processor处理区  用于处理业务逻辑
             //泛型就是实现的业务
-            UserService.Processor<UserService.Iface> userProcessor = new UserService.Processor<>(userService);
+            TProcessor helloWorldProcessor = new HelloWorld.Processor<>(new HelloWorldHandler());
+            TProcessor calculatorProcessor = new Calculator.Processor<>(new CalculatorHandler());
             //汇总，注册多个服务处理器
             TMultiplexedProcessor multiplexedProcessor = new TMultiplexedProcessor();
-            multiplexedProcessor.registerProcessor(UserService.class.getSimpleName(), userProcessor);
+            multiplexedProcessor.registerProcessor("HelloWorld", helloWorldProcessor);
+            multiplexedProcessor.registerProcessor("Calculator", calculatorProcessor);
 
             //---------------thrift传输协议------------------------------
             //1. TBinaryProtocol      二进制传输协议
@@ -96,14 +79,12 @@ public class ThriftServer implements IRPCServer {
             TServer server = new THsHaServer(arg);
             //---------------thrift支持的服务模型------------------------------
 
-            log.info("Thrift server started; port: {}", properties.getPort());
+            System.out.printf("Thrift server started, port: %d%n", 8081);
             //启动server, 异步非阻塞的死循环
             server.serve();
         } catch (TTransportException e) {
-            log.info("Thrift server start failed:");
+            System.out.println("Thrift server start failed:");
             e.printStackTrace();
-        } finally {
-            latch.countDown();
         }
     }
 }

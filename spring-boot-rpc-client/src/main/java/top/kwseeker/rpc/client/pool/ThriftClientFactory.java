@@ -47,6 +47,7 @@ public class ThriftClientFactory extends BasePooledObjectFactory<TSocket> {
      */
     @Override
     public boolean validateObject(PooledObject<TSocket> pooledObject) {
+        log.debug("validateObject");
         return pooledObject.getObject().isOpen();
     }
 }

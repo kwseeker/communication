@@ -1,6 +1,7 @@
 package top.kwseeker.rpc;
 
 import org.apache.thrift.protocol.TCompactProtocol;
+import org.apache.thrift.protocol.TMultiplexedProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
@@ -17,8 +18,10 @@ class ThriftServerApplicationTests {
         tSocket.open();
         TTransport tTransport = new TFramedTransport(tSocket, 600);
         //协议对象 这里使用协议对象需要和服务器的一致
-        TProtocol tProtocol = new TCompactProtocol(tTransport);
-        UserService.Client client = new UserService.Client(tProtocol);
+        TProtocol cp = new TCompactProtocol(tTransport);
+        TMultiplexedProtocol mp = new TMultiplexedProtocol(cp, UserService.class.getSimpleName());
+
+        UserService.Client client = new UserService.Client(mp);
 
         User user = new User();
         user.setName("Tom");

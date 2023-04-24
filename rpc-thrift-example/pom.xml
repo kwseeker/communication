@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>top.kwseeker.communication</groupId>
-    <artifactId>rpc-thrift</artifactId>
+    <artifactId>rpc-thrift-example</artifactId>
 
     <dependencies>
         <dependency>
