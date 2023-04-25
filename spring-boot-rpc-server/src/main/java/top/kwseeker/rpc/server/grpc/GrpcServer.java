@@ -7,7 +7,7 @@ import java.util.concurrent.CountDownLatch;
 public class GrpcServer implements IRPCServer {
 
     @Override
-    public void start(CountDownLatch latch) {
+    public void start() {
 
     }
 }

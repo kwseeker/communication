@@ -1,0 +1,47 @@
+server:
+  port: 19090
+
+spring:
+  application:
+    name: boot-rpc-server
+  cloud:
+    consul:   # more: https://docs.spring.io/spring-cloud-consul/docs/3.1.2/reference/html/appendix.html
+      enabled: true
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true                             # 开启服务发现, 默认true
+        register: true                            # 开启服务注册, 默认true
+        register-health-check: true               # 服务健康检查
+        health-check-interval: 10s
+        health-check-timeout: 5s
+        # health-check-path: /health              # 默认指向 /actuator/health，Actuator 应用默认就有的接口
+        # tags:                                   # 新版本不再推荐使用这个属性，替换为 metadata
+        metadata:
+          - boot-rpc-server-19090
+          - http
+        service-name: ${spring.application.name}  # boot-rpc-server
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}  # 每个服务实例惟一
+        prefer-ip-address: true                   # 注册时使用 ip 地址而不是主机名，默认false
+        # catalog-services-watch-delay: 1000
+
+#rpc.manager.thrift.enabled=true
+#rpc.manager.thrift.port=9080
+#rpc.manager.thrift.minThreadPool=8
+#rpc.manager.thrift.maxThreadPool=16
+rpc:
+  manager:
+    thrift:
+      enabled: true
+      port: 9080
+      min-thread-pool: 8
+      max-thread-pool: 16
+
+logging:
+  level:
+    org.springframework.cloud.consul: debug
+    top.kwseeker.rpc: debug
+
+management:
+  endpoints:
+    enabled-by-default: true

@@ -4,5 +4,6 @@ import java.util.concurrent.CountDownLatch;
 
 public interface IRPCServer {
 
-    void start(CountDownLatch latch);
+    //void start(CountDownLatch latch);
+    void start();
 }

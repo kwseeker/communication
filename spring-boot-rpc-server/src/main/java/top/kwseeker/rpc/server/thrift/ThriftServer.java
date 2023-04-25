@@ -15,7 +15,6 @@ import top.kwseeker.rpc.server.IRPCServer;
 import top.kwseeker.rpc.server.RPCManagerProperties;
 
 import javax.annotation.Resource;
-import java.util.concurrent.CountDownLatch;
 
 public class ThriftServer implements IRPCServer {
 
@@ -34,7 +33,8 @@ public class ThriftServer implements IRPCServer {
     }
 
     @Override
-    public void start(CountDownLatch latch) {
+    //public void start(CountDownLatch latch) {
+    public void start() {
         try {
             //1 Socket: thrift支持的socket有很多种
             //非阻塞的socket
@@ -102,8 +102,9 @@ public class ThriftServer implements IRPCServer {
         } catch (TTransportException e) {
             log.info("Thrift server start failed:");
             e.printStackTrace();
-        } finally {
-            latch.countDown();
         }
+        //finally {
+        //    latch.countDown();
+        //}
     }
 }

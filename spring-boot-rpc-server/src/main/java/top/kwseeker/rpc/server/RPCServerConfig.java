@@ -41,20 +41,20 @@ public class RPCServerConfig implements SmartInitializingSingleton, ApplicationC
     public void afterSingletonsInstantiated() {
         String[] rpcServerNames = applicationContext.getBeanNamesForType(IRPCServer.class);
         //启动所有开启的RPC Server
-        CountDownLatch latch = new CountDownLatch(rpcServerNames.length);
+        //CountDownLatch latch = new CountDownLatch(rpcServerNames.length);
         for (String rpcServerName : rpcServerNames) {
             log.info(">>>>>>> start rpc server: " + rpcServerName);
             IRPCServer rpcServer = applicationContext.getBean(rpcServerName, IRPCServer.class);
-            Thread thread = new Thread(() -> rpcServer.start(latch), "thread-rpc-server-" + rpcServerName);
+            Thread thread = new Thread(() -> rpcServer.start(), "thread-rpc-server-" + rpcServerName);
             thread.setDaemon(true);
             thread.start();
         }
 
-        try {
-            latch.await();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //try {
+        //    latch.await();
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //}
     }
 
     // setter =================================================
