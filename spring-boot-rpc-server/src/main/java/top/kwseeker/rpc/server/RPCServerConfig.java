@@ -14,13 +14,11 @@ import org.springframework.context.annotation.Configuration;
 import top.kwseeker.rpc.server.grpc.GrpcServer;
 import top.kwseeker.rpc.server.thrift.ThriftServer;
 
-import java.util.concurrent.CountDownLatch;
-
 @Configuration
 @EnableConfigurationProperties(RPCManagerProperties.class)
 public class RPCServerConfig implements SmartInitializingSingleton, ApplicationContextAware {
 
-    private final Logger log = LoggerFactory.getLogger(RPCServerConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(RPCServerConfig.class);
 
     private ApplicationContext applicationContext;
     private RPCManagerProperties rpcManagerProperties;
@@ -43,9 +41,9 @@ public class RPCServerConfig implements SmartInitializingSingleton, ApplicationC
         //启动所有开启的RPC Server
         //CountDownLatch latch = new CountDownLatch(rpcServerNames.length);
         for (String rpcServerName : rpcServerNames) {
-            log.info(">>>>>>> start rpc server: " + rpcServerName);
+            log.info(">>>>>>> start rpc server: {}", rpcServerName);
             IRPCServer rpcServer = applicationContext.getBean(rpcServerName, IRPCServer.class);
-            Thread thread = new Thread(() -> rpcServer.start(), "thread-rpc-server-" + rpcServerName);
+            Thread thread = new Thread(rpcServer::start, "thread-rpc-server-" + rpcServerName);
             thread.setDaemon(true);
             thread.start();
         }

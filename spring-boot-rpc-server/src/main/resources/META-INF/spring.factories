@@ -1,0 +1,3 @@
+top.kwseeker.rpc.server.annotation.EnableRPCServer=\
+  top.kwseeker.rpc.server.RPCServerAutoConfiguration,\
+  top.kwseeker.rpc.server.RPCServerDiscoveryConfiguration
