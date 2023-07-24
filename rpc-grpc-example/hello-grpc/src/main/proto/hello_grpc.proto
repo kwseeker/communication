@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+//这个如果为false, 除了会生成 java_outer_classname 的文件，其他像 HelloRequest.java 都不会生成
+option java_multiple_files = true;
+option java_package = "top.kwseeker.communication.grpc.hellogrpc";
+option java_outer_classname = "HelloGrpcProto";
+//Objective-C 类的前缀名
+//option objc_class_prefix = "HLW";
+
+package hellogrpc;
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string message = 1;
+}

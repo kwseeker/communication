@@ -13,6 +13,7 @@
     <module>spring-boot-rpc-client</module>
     <module>spring-boot-rpc-server</module>
     <module>rpc-common</module>
+    <module>rpc-grpc-example</module>
   </modules>
 
   <name>communication</name>
