@@ -1,0 +1,31 @@
+syntax = "proto3";  //protocol buffer 协议版本
+
+//package mall.product;
+package mall;
+
+import "mall/manufacturer/Manufacturer.proto";
+
+//这个如果为false, 除了会生成 java_outer_classname 的文件，其他像 HelloRequest.java 都不会生成
+option java_multiple_files = true;
+option java_package = "top.kwseeker.communication.grpc.mall.product";
+option java_outer_classname = "ProductServiceProto";
+
+service ProductService {
+  rpc addProduct(Product) returns (ProductID);
+  rpc getProduct(ProductID) returns (Product);
+}
+
+message ProductID {
+  string value = 1;
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  float price = 4;
+  //生产商
+  Manufacturer manufacturer = 5;
+  //如果引入的protobuf元素不是同一个package，需要加上全限定名
+  //mall.manufacturer.Manufacturer manufacturer = 5;
+}

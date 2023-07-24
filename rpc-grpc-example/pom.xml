@@ -15,6 +15,7 @@
 
     <modules>
         <module>hello-grpc</module>
+        <module>mall-service</module>
     </modules>
 
     <properties>
