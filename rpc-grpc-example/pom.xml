@@ -16,6 +16,7 @@
     <modules>
         <module>hello-grpc</module>
         <module>mall-service</module>
+        <module>skywalking-grpc</module>
     </modules>
 
     <properties>

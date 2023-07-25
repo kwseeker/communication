@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package mall;
+
+option java_multiple_files = true;
+option java_package = "top.kwseeker.communication.grpc.mall.order";
+option java_outer_classname = "OrderServiceProto";
+
+import "mall/product/Product.proto";
+
+service OrderService {
+  //假设有一批过期未支付的订单需要清除
+  rpc deleteTimeoutOrder(stream Order) returns (int32);
+
+}
+
+message Order {
+  string id = 1;              //订单ID
+  repeated Product items = 2; //订单物品列表
+  string description = 3;     //订单描述
+  float totalPrice = 4;       //订单总价
+}
+
