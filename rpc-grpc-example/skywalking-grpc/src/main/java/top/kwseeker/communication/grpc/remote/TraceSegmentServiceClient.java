@@ -4,6 +4,7 @@ import io.grpc.Channel;
 import top.kwseeker.communication.grpc.boot.BootService;
 import top.kwseeker.communication.grpc.boot.ServiceManager;
 import top.kwseeker.communication.grpc.context.trace.TraceSegment;
+import top.kwseeker.communication.grpc.datacarrier.DataCarrier;
 import top.kwseeker.communication.grpc.language.agent.v3.TraceSegmentReportServiceGrpc;
 
 import java.util.List;

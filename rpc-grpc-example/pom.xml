@@ -29,11 +29,18 @@
     </properties>
 
     <dependencies>
+        <!--<dependency>-->
+        <!--    <groupId>io.grpc</groupId>-->
+        <!--    <artifactId>grpc-netty-shaded</artifactId>-->
+        <!--    <version>${grpc.version}</version>-->
+        <!--    <scope>runtime</scope>-->
+        <!--</dependency>-->
+        <!-- grpc-netty-shaded是对grpc-netty的一个封装，它会将Netty依赖项进行“阴影依赖”(Shading)处理，即将依赖项重命名(注意包名可能变了)，
+             避免与用户应用程序中的其他依赖项冲突，从而减少依赖冲突的可能性-->
         <dependency>
             <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty-shaded</artifactId>
+            <artifactId>grpc-netty</artifactId>
             <version>${grpc.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
