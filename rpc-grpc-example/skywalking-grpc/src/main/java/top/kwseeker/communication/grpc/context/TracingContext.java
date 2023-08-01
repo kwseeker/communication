@@ -17,10 +17,12 @@ public class TracingContext {
     //使用LinkedList实现的栈结构
     private LinkedList<TracingSpan> activeSpanStack = new LinkedList<>();
     private int spanIdGenerator;
+    private volatile boolean running;
 
     public TracingContext() {
         this.segment = new TraceSegment();
         this.spanIdGenerator = 0;
+        this.running = true;
     }
 
     public TracingSpan createSpan(String operationName) {
@@ -67,7 +69,11 @@ public class TracingContext {
      * 会调用此方法上报，具体流程是通过 ListenerManager#notifyFinish() 此方法内部通过生产者端往DataCarrier Buffer中添加数据
      */
     private void finish() {
-        TracingContext.ListenerManager.notifyFinish(segment);
+        boolean isFinishedInMainThread = activeSpanStack.isEmpty() && running;
+        if (isFinishedInMainThread) {
+            TracingContext.ListenerManager.notifyFinish(segment);
+            running = false;
+        }
     }
 
     public static class ListenerManager {

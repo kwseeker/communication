@@ -27,6 +27,40 @@ public class TraceSegmentServiceClientTest {
         server.start();
         server.blockUntilShutdown();
     }
+    /*
+    Server started, listening on 50051
+    接收到客户端上报数据：traceSegmentId: "20c56df01db24ce8a1726a40c5059427"
+    spans {
+      spanId: 1
+      startTime: 1690890596762
+      endTime: 1690890596762
+      operationName: "XxxService.someMethod(someParams,...)"
+      spanLayer: Http
+      tags {
+        key: "TagB"
+        value: "TagBValue"
+      }
+    }
+    spans {
+      parentSpanId: -1
+      startTime: 1690890596757
+      endTime: 1690890596762
+      operationName: "GET:/demo/echo"
+      spanLayer: Http
+      tags {
+        key: "http.method"
+        value: "echo"
+      }
+      tags {
+        key: "TagA"
+        value: "TagAValue"
+      }
+    }
+    service: "SW-DEMO"
+    serviceInstance: "SW-DEMO-1"
+
+    接收完毕, 返回确认信息
+    */
 
     /**
      * 模拟从调用Controller方法（内部调用Service方法）到退出，追踪数据的创建与通过GRPC上报的过程
@@ -59,6 +93,17 @@ public class TraceSegmentServiceClientTest {
 
         Thread.sleep(10000);
     }
+    /*
+    grpc server ip: localhost, port: 50051
+    Consumer thread consume size: 1
+    接收到服务端的确认信息：commands {
+      command: "CommandA"
+      args {
+        key: "keyA"
+        value: "valueA"
+      }
+    }
+    */
 
     /**
      * 接收GRPC客户端上报的追踪数据，仅仅是打印出来

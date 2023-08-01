@@ -88,7 +88,7 @@ public class TraceSegmentServiceClient implements BootService, GRPCChannelListen
                         public void onNext(Commands commands) {
                             //ServiceManager.INSTANCE.findService(CommandService.class)
                             //        .receiveCommand(commands);
-                            System.out.println(commands);
+                            System.out.println("接收到服务端的确认信息：" + commands);
                         }
 
                         @Override
