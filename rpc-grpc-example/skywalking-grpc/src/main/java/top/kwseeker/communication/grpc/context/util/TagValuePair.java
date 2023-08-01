@@ -1,20 +1,21 @@
 package top.kwseeker.communication.grpc.context.util;
 
 import top.kwseeker.communication.grpc.common.v3.KeyStringValuePair;
+import top.kwseeker.communication.grpc.context.tag.AbstractTag;
 
 import java.util.Objects;
 
 public class TagValuePair {
-    //private AbstractTag key;
-    protected String key;
+
+    private AbstractTag key;
     private String value;
 
-    public TagValuePair(String key, String value) {
-        this.key = key;
+    public TagValuePair(AbstractTag tag, String value) {
+        this.key = tag;
         this.value = value;
     }
 
-    public String getKey() {
+    public AbstractTag getKey() {
         return key;
     }
 
@@ -25,12 +26,17 @@ public class TagValuePair {
     //这个是 proto 生成的类
     public KeyStringValuePair transform() {
         KeyStringValuePair.Builder keyValueBuilder = KeyStringValuePair.newBuilder();
-        keyValueBuilder.setKey(key);
+        keyValueBuilder.setKey(key.key());
         if (value != null) {
             keyValueBuilder.setValue(value);
         }
         return keyValueBuilder.build();
     }
+
+    public boolean sameWith(AbstractTag tag) {
+        return key.isCanOverwrite() && key.getId() == tag.getId();
+    }
+
 
     public void setValue(String value) {
         this.value = value;

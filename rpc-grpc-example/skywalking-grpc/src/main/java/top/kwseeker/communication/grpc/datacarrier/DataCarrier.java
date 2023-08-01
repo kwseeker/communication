@@ -2,17 +2,26 @@ package top.kwseeker.communication.grpc.datacarrier;
 
 import top.kwseeker.communication.grpc.datacarrier.buffer.BufferStrategy;
 import top.kwseeker.communication.grpc.datacarrier.buffer.Channels;
+import top.kwseeker.communication.grpc.datacarrier.consumer.ConsumeDriver;
+import top.kwseeker.communication.grpc.datacarrier.consumer.IConsumer;
+import top.kwseeker.communication.grpc.datacarrier.consumer.IDriver;
 import top.kwseeker.communication.grpc.datacarrier.partition.IDataPartitioner;
 import top.kwseeker.communication.grpc.datacarrier.partition.SimpleRollingPartitioner;
+import top.kwseeker.communication.grpc.util.EnvUtil;
 
 import java.util.Properties;
+
+import static top.kwseeker.communication.grpc.config.Config.Collector.CONSUME_CYCLE;
 
 /**
  * 生产者消费者模型
  */
 public class DataCarrier<T> {
 
+    //容纳生产者上报的数据
+    //默认：5个QueueBuffer，每个Buffer最多存300个元素，即总容量1500，上报的数据轮询分片到5个QueueBuffer
     private Channels<T> channels;
+    //消费者
     private IDriver driver;
     private String name;
 
@@ -100,7 +109,7 @@ public class DataCarrier<T> {
      * set consumeDriver to this Carrier. consumer begin to run when {@link DataCarrier#produce} begin to work.
      *
      * @param consumer single instance of consumer, all consumer threads will all use this instance.
-     * @param num      number of consumer threads
+     * @param num      consumer线程数量
      */
     public DataCarrier consume(IConsumer<T> consumer, int num, long consumeCycle) {
         if (driver != null) {
@@ -116,22 +125,23 @@ public class DataCarrier<T> {
      * millis consume cycle.
      *
      * @param consumer single instance of consumer, all consumer threads will all use this instance.
-     * @param num      number of consumer threads
+     * @param num      consumer线程数量
      */
     public DataCarrier consume(IConsumer<T> consumer, int num) {
-        return this.consume(consumer, num, 20);
+        //return this.consume(consumer, num, 20);
+        return this.consume(consumer, num, CONSUME_CYCLE);   //为方便调试，消费者线程1000ms扫描一次
     }
 
-    /**
-     * Set a consumer pool to manage the channels of this DataCarrier. Then consumerPool could use its own consuming
-     * model to adjust the consumer thread and throughput.
-     */
-    public DataCarrier consume(ConsumerPool consumerPool, IConsumer<T> consumer) {
-        driver = consumerPool;
-        consumerPool.add(this.name, channels, consumer);
-        driver.begin(channels);
-        return this;
-    }
+    ///**
+    // * Set a consumer pool to manage the channels of this DataCarrier. Then consumerPool could use its own consuming
+    // * model to adjust the consumer thread and throughput.
+    // */
+    //public DataCarrier consume(ConsumerPool consumerPool, IConsumer<T> consumer) {
+    //    driver = consumerPool;
+    //    consumerPool.add(this.name, channels, consumer);
+    //    driver.begin(channels);
+    //    return this;
+    //}
 
     /**
      * shutdown all consumer threads, if consumer threads are running. Notice {@link BufferStrategy}: if {@link

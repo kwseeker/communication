@@ -7,11 +7,11 @@ option java_package = "top.kwseeker.communication.grpc.mall.order";
 option java_outer_classname = "OrderServiceProto";
 
 import "mall/product/Product.proto";
+import "google/protobuf/wrappers.proto";
 
 service OrderService {
   //假设有一批过期未支付的订单需要清除
-  rpc deleteTimeoutOrder(stream Order) returns (int32);
-
+  rpc deleteTimeoutOrder(stream Order) returns (google.protobuf.Int32Value);
 }
 
 message Order {

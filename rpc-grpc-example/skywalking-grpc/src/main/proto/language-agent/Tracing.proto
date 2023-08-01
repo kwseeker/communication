@@ -10,8 +10,10 @@ import "common/Command.proto";
 
 service TraceSegmentReportService {
 
+  //双向流RPC模式
   rpc collect(stream SegmentObject) returns (stream Commands);
 
+  //服务端流RPC模式
   rpc collectInSync(SegmentObject) returns (stream Commands);
 }
 

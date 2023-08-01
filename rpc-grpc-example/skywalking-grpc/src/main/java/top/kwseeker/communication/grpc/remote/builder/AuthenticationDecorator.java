@@ -8,8 +8,8 @@ import io.grpc.ClientInterceptors;
 import io.grpc.ForwardingClientCall;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
-import org.apache.skywalking.apm.agent.core.conf.Config;
-import org.apache.skywalking.apm.util.StringUtil;
+import top.kwseeker.communication.grpc.config.Config;
+import top.kwseeker.communication.grpc.util.StringUtil;
 
 /**
  * Active authentication header by Config.Agent.AUTHENTICATION

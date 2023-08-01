@@ -14,7 +14,6 @@
     <module>spring-boot-rpc-server</module>
     <module>rpc-common</module>
     <module>rpc-grpc-example</module>
-    <module>rpc-grpc-example/grpc-common</module>
   </modules>
 
   <name>communication</name>

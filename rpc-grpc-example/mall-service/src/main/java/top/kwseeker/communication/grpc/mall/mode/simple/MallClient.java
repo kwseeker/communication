@@ -1,4 +1,4 @@
-package top.kwseeker.communication.grpc.mall;
+package top.kwseeker.communication.grpc.mall.mode.simple;
 
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;

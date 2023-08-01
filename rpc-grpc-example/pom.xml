@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>grpc-common</module>
         <module>hello-grpc</module>
         <module>mall-service</module>
         <module>skywalking-grpc</module>

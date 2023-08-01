@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.apache.skywalking.apm.agent.core.conf.Config.Collector.IS_RESOLVE_DNS_PERIODICALLY;
+import static top.kwseeker.communication.grpc.config.Config.Collector.IS_RESOLVE_DNS_PERIODICALLY;
 
 /**
  * Channel是真正的连接对象，GRPCChannelManager 连接管理器
@@ -126,6 +126,7 @@ public class GRPCChannelManager implements BootService, Runnable {
 
                         server = grpcServers.get(index);
                         String[] ipAndPort = server.split(":");
+                        System.out.printf("grpc server ip: %s, port: %s\n", ipAndPort[0], ipAndPort[1]);
 
                         if (managedChannel != null) {
                             managedChannel.shutdownNow();

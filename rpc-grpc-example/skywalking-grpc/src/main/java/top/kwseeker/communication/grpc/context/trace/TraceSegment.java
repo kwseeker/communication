@@ -13,6 +13,7 @@ public class TraceSegment {
 
     private String traceSegmentId;
     //private TraceSegmentRef ref;
+    //已经结束的Span的列表
     private List<TracingSpan> spans;
     //private DistributedTraceId relatedGlobalTraceId;
     //private boolean ignore = false;
@@ -23,6 +24,11 @@ public class TraceSegment {
         this.traceSegmentId = UUID.randomUUID().toString().replace("-", "");
         this.spans = new LinkedList<>();
         this.createTime = System.currentTimeMillis();
+    }
+
+    //方法调用返回，span从TraceContext出栈后加入到spans列表
+    public void archive(TracingSpan finishedSpan) {
+        spans.add(finishedSpan);
     }
 
     public SegmentObject transform() {
